@@ -1,0 +1,3 @@
+alter table CHAT_MENSAGEM add USUARIO_DESTINO_ID NUMBER(18);
+
+alter table CHAT_MENSAGEM add constraint CHAT_MENSAGEM_USUARIO_DESTINO_ID_FK foreign key (USUARIO_DESTINO_ID) references USUARIO (ID);

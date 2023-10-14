@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: juntamedic-backend
+  namespace: $NAMESPACE
+  labels:
+    app: juntamedic-backend
+spec:
+  revisionHistoryLimit: 5 
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: juntamedic-backend
+  template:
+    metadata:
+      labels:
+        app: juntamedic-backend
+    spec:
+      containers:
+        - name: juntamedic-backend
+          image: $IMAGE
+          resources:
+            requests:
+              memory: "1024Mi"
+              cpu: "30m"
+            limits:
+              memory: "1500Mi"
+              cpu: "1000m"
+          envFrom:
+          - configMapRef:
+              name: juntamedic-backend
+          - secretRef:
+              name: juntamedic-backend
+          ports: 
+          - name: port 
+            protocol: TCP 
+            containerPort: 9016
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 9016 
+            initialDelaySeconds: 60
+            successThreshold: 1
+            failureThreshold: 3
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 9016
+            initialDelaySeconds: 120
+            successThreshold: 1
+            failureThreshold: 3
+            periodSeconds: 20

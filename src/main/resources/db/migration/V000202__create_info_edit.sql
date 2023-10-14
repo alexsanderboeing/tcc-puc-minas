@@ -1,0 +1,10 @@
+CREATE TABLE info_edit (
+    id        NUMBER(10) NOT NULL,
+    nome      VARCHAR2(45 CHAR)
+);
+
+ALTER TABLE info_edit ADD CONSTRAINT info_edit_pk PRIMARY KEY ( id );
+
+CREATE SEQUENCE s_info_edit
+    MINVALUE 1 MAXVALUE 999999999999999999
+        NOCACHE ORDER;

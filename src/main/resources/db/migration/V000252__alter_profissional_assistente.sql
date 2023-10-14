@@ -1,0 +1,1 @@
+alter table profissional_assistente modify operadora_id null
